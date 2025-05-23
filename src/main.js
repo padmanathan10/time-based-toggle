@@ -12,7 +12,7 @@ const playPauseBtns = document.querySelectorAll('.play-pause-btn');
 
 let currentActiveIndex = 0;
 let timerId = null;
-let cycleDuration = 9999; // in milliseconds
+let cycleDuration = 3000; // in milliseconds
 let startTime;
 let remainingTime = cycleDuration;
 let isPaused = false;
