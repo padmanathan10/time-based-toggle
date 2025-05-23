@@ -12,13 +12,15 @@ const playPauseBtns = document.querySelectorAll('.play-pause-btn');
 
 let currentActiveIndex = 0;
 let timerId = null;
-let cycleDuration = 3000; // in milliseconds
+let cycleDuration = 9999; // in milliseconds
 let startTime;
 let remainingTime = cycleDuration;
 let isPaused = false;
 let mouseOverActiveBlock = false;
 let isMobile = window.innerWidth <= 1024;
 let splitInstance = null;
+let touchStartX = 0;
+let touchEndX = 0;
 
 function setActiveBlock(index) {
   // Remove active class from all blocks
@@ -223,6 +225,26 @@ function handleResize() {
   }
 }
 
+function handleSwipe(e) {
+  if (!isMobile) return; // Only enable swipe on mobile
+
+  touchEndX = e.changedTouches[0].screenX;
+
+  // Calculate swipe distance
+  const distance = touchStartX - touchEndX;
+
+  // If the user swiped more than 50 pixels
+  if (Math.abs(distance) > 50) {
+    if (distance > 0) {
+      // Swipe left - go to next
+      handleNextClick();
+    } else {
+      // Swipe right - go to previous
+      handlePrevClick();
+    }
+  }
+}
+
 // Initialize
 setActiveBlock(currentActiveIndex);
 resetTimer();
@@ -234,6 +256,10 @@ blocks.forEach((block, index) => {
   block.addEventListener('click', () => handleBlockClick(index));
   block.addEventListener('mouseenter', handleMouseEnter);
   block.addEventListener('mouseleave', handleMouseLeave);
+  block.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+  block.addEventListener('touchend', handleSwipe);
 });
 
 dots.forEach((dot, index) => {
