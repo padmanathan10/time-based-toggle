@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .container {
+    @apply max-w-[1210px] sm:max-w-full md:max-w-[640px] lg:max-w-[720px] xl:max-w-[960px];
+  }
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.shadow-blur {
+  display: none;
+}
+
+.block.active .shadow-blur {
+  display: block;
+}
+
+.block-avatar-container {
+  transform: translate(-50%, -50%);
+}
+
+.block.active .block-avatar-container {
+  transform: translate(-50%, -80%);
+  opacity: 1;
+}
+
+.block-avatar {
+  width: 160px;
+  height: 160px;
+}
+
+.block.active .block-avatar {
+  width: 120px;
+  height: 120px;
+}
+
+.animated-para {
+  opacity: 0;
+  max-height: 0px;
+  min-height: 0px;
+}
+
+.split {
+  opacity: 0;
+  max-height: 0px;
+  min-height: 0px;
+}
+
+.split.animated-para {
+  opacity: 1;
+  max-height: max-content;
+  min-height: max-content;
+}
+
+.split * {
+  will-change: transform;
+}
+
+.dark .theme-button .moon-icon,
+.theme-button .sun-icon {
+  display: none;
+}
+
+.dark .theme-button .sun-icon,
+.theme-button .moon-icon {
+  display: block;
+}
+
+@media (max-width: 1290px) {
+  .block.active .block-avatar-container {
+    transform: translate(-50%, -85%);
+  }
+}
