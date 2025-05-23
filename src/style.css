@@ -71,8 +71,35 @@ body {
   display: block;
 }
 
+.dot {
+  background-color: #ccc;
+}
+
+.dot.active {
+  background-color: #3a34a3;
+}
+
+.dark .dot {
+  background-color: #ccc;
+}
+
+.dark .dot.active {
+  background-color: #ff6d04;
+  transform: scale(1.2);
+}
+
 @media (max-width: 1290px) {
   .block.active .block-avatar-container {
     transform: translate(-50%, -85%);
+  }
+}
+
+@media (max-width: 1024px) {
+  .block {
+    display: none;
+  }
+
+  .block.active {
+    display: block;
   }
 }

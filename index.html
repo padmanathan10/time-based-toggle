@@ -11,9 +11,9 @@
   <body>
     <main class="flex h-screen items-center justify-center bg-white dark:bg-black">
       <div class="container">
-        <div class="head-block flex items-center justify-between pb-[60px]">
-          <div class="head-block-contents flex items-center">
-            <figure class="mr-2.5 h-32 w-32">
+        <div class="head-block flex items-center justify-between pb-[60px] sm:flex-col">
+          <div class="head-block-contents flex flex-1 items-center lg:max-w-[500px]">
+            <figure class="mr-2.5 size-32 sm:hidden">
               <svg
                 class="size-full"
                 xmlns="http://www.w3.org/2000/svg"
@@ -31,11 +31,15 @@
                 <path class="stroke-[#3a34a3] dark:stroke-[#ff6d04]" d="M7 17 17 7" />
               </svg>
             </figure>
-            <div>
-              <p class="pb-0.5 text-[40px] font-bold text-[#191919] dark:text-[#f7fafc] xl:text-[32px]">
+            <div class="flex-1">
+              <p
+                class="pb-0.5 text-[40px] font-bold text-[#191919] dark:text-[#f7fafc] sm:text-center lg:text-[28px] xl:text-[32px]"
+              >
                 Trusted by Thousands
               </p>
-              <p class="font-semiboldm text-2xl text-[#191919] dark:text-[#f7fafc] xl:text-xl">
+              <p
+                class="font-semiboldm text-2xl text-[#191919] dark:text-[#f7fafc] sm:pb-8 sm:pt-6 sm:text-center lg:text-[20px] lg:leading-7 xl:text-[24px]"
+              >
                 Hear directly from our happy clients and their success stories
               </p>
             </div>
@@ -64,9 +68,28 @@
             </figure>
           </button>
         </div>
-        <div class="block-container flex justify-center gap-6 pb-[60px] xl:gap-4">
+        <div
+          class="block-container relative flex justify-center gap-6 overflow-hidden pb-[60px] lg:mx-auto lg:max-w-[450px] lg:pb-0 xl:gap-4"
+        >
+          <button
+            class="nav-btn nav-btn-left absolute left-0 top-1/2 hidden h-9 w-9 translate-y-[-50%] items-center justify-center rounded-full bg-[radial-gradient(circle,#ffffff,#f6f6f6,#ededed,#e4e4e4,#dbdbdb)] dark:bg-[radial-gradient(circle,#050512,#0b0b14,#101016,#141418,#17171a)] lg:flex"
+            id="prevBtn"
+          >
+            <svg
+              class="stroke-[#3a34a3] dark:stroke-[#f7fafc]"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="15,18 9,12 15,6"></polyline>
+            </svg>
+          </button>
           <div
             class="group relative block h-[350px] w-[276px] cursor-pointer overflow-hidden rounded-2xl bg-[radial-gradient(circle,#ffffff,#f6f6f6,#ededed,#e4e4e4,#dbdbdb)] dark:bg-[radial-gradient(circle,#050512,#0b0b14,#101016,#141418,#17171a)]"
+            data-index="0"
           >
             <div class="block-contents relative flex h-full flex-col justify-center">
               <div
@@ -87,9 +110,47 @@
             <div
               class="shadow-blur absolute -left-5 -top-5 h-32 w-32 shrink-0 bg-[#3a34a3] blur-[120px] dark:bg-[#ff6d04]"
             ></div>
+            <button
+              class="play-pause-btn absolute right-4 top-4 z-10 hidden h-10 w-10 items-center justify-center rounded-[50%] border-[none] bg-[radial-gradient(circle,#ffffff,#f6f6f6,#ededed,#e4e4e4,#dbdbdb)] opacity-80 dark:bg-[radial-gradient(circle,#050512,#0b0b14,#101016,#141418,#17171a)] lg:flex"
+              id="playPauseBtn"
+            >
+              <svg
+                class="pause-icon stroke-[#3a34a3] dark:stroke-[#ff6d04]"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-circle-pause-icon lucide-circle-pause"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="10" x2="10" y1="15" y2="9" />
+                <line x1="14" x2="14" y1="15" y2="9" />
+              </svg>
+              <svg
+                class="play-icon stroke-[#3a34a3] dark:stroke-[#ff6d04]"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-play-icon lucide-play"
+              >
+                <polygon points="6 3 20 12 6 21 6 3" />
+              </svg>
+            </button>
           </div>
           <div
             class="group relative block h-[350px] w-[276px] cursor-pointer overflow-hidden rounded-2xl bg-[radial-gradient(circle,#ffffff,#f6f6f6,#ededed,#e4e4e4,#dbdbdb)] dark:bg-[radial-gradient(circle,#050512,#0b0b14,#101016,#141418,#17171a)]"
+            data-index="1"
           >
             <div class="block-contents relative flex h-full flex-col justify-center">
               <div
@@ -110,9 +171,47 @@
             <div
               class="shadow-blur absolute -left-5 -top-5 h-32 w-32 shrink-0 bg-[#3a34a3] blur-[120px] dark:bg-[#ff6d04]"
             ></div>
+            <button
+              class="play-pause-btn absolute right-4 top-4 z-10 hidden h-10 w-10 items-center justify-center rounded-[50%] border-[none] bg-[radial-gradient(circle,#ffffff,#f6f6f6,#ededed,#e4e4e4,#dbdbdb)] opacity-80 dark:bg-[radial-gradient(circle,#050512,#0b0b14,#101016,#141418,#17171a)] lg:flex"
+              id="playPauseBtn"
+            >
+              <svg
+                class="pause-icon stroke-[#3a34a3] dark:stroke-[#ff6d04]"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-circle-pause-icon lucide-circle-pause"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="10" x2="10" y1="15" y2="9" />
+                <line x1="14" x2="14" y1="15" y2="9" />
+              </svg>
+              <svg
+                class="play-icon stroke-[#3a34a3] dark:stroke-[#ff6d04]"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-play-icon lucide-play"
+              >
+                <polygon points="6 3 20 12 6 21 6 3" />
+              </svg>
+            </button>
           </div>
           <div
             class="group relative block h-[350px] w-[276px] cursor-pointer overflow-hidden rounded-2xl bg-[radial-gradient(circle,#ffffff,#f6f6f6,#ededed,#e4e4e4,#dbdbdb)] dark:bg-[radial-gradient(circle,#050512,#0b0b14,#101016,#141418,#17171a)]"
+            data-index="2"
           >
             <div class="block-contents relative flex h-full flex-col justify-center">
               <div
@@ -133,9 +232,47 @@
             <div
               class="shadow-blur absolute -left-5 -top-5 h-32 w-32 shrink-0 bg-[#3a34a3] blur-[120px] dark:bg-[#ff6d04]"
             ></div>
+            <button
+              class="play-pause-btn absolute right-4 top-4 z-10 hidden h-10 w-10 items-center justify-center rounded-[50%] border-[none] bg-[radial-gradient(circle,#ffffff,#f6f6f6,#ededed,#e4e4e4,#dbdbdb)] opacity-80 dark:bg-[radial-gradient(circle,#050512,#0b0b14,#101016,#141418,#17171a)] lg:flex"
+              id="playPauseBtn"
+            >
+              <svg
+                class="pause-icon stroke-[#3a34a3] dark:stroke-[#ff6d04]"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-circle-pause-icon lucide-circle-pause"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="10" x2="10" y1="15" y2="9" />
+                <line x1="14" x2="14" y1="15" y2="9" />
+              </svg>
+              <svg
+                class="play-icon stroke-[#3a34a3] dark:stroke-[#ff6d04]"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-play-icon lucide-play"
+              >
+                <polygon points="6 3 20 12 6 21 6 3" />
+              </svg>
+            </button>
           </div>
           <div
             class="group relative block h-[350px] w-[276px] cursor-pointer overflow-hidden rounded-2xl bg-[radial-gradient(circle,#ffffff,#f6f6f6,#ededed,#e4e4e4,#dbdbdb)] dark:bg-[radial-gradient(circle,#050512,#0b0b14,#101016,#141418,#17171a)]"
+            data-index="3"
           >
             <div class="block-contents relative flex h-full flex-col justify-center">
               <div
@@ -156,7 +293,66 @@
             <div
               class="shadow-blur absolute -left-5 -top-5 h-32 w-32 shrink-0 bg-[#3a34a3] blur-[120px] dark:bg-[#ff6d04]"
             ></div>
+            <button
+              class="play-pause-btn absolute right-4 top-4 z-10 hidden h-10 w-10 items-center justify-center rounded-[50%] border-[none] bg-[radial-gradient(circle,#ffffff,#f6f6f6,#ededed,#e4e4e4,#dbdbdb)] opacity-80 dark:bg-[radial-gradient(circle,#050512,#0b0b14,#101016,#141418,#17171a)] lg:flex"
+              id="playPauseBtn"
+            >
+              <svg
+                class="pause-icon stroke-[#3a34a3] dark:stroke-[#ff6d04]"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-circle-pause-icon lucide-circle-pause"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="10" x2="10" y1="15" y2="9" />
+                <line x1="14" x2="14" y1="15" y2="9" />
+              </svg>
+              <svg
+                class="play-icon stroke-[#3a34a3] dark:stroke-[#ff6d04]"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-play-icon lucide-play"
+              >
+                <polygon points="6 3 20 12 6 21 6 3" />
+              </svg>
+            </button>
           </div>
+          <button
+            class="nav-btn nav-btn-right absolute right-0 top-1/2 hidden h-9 w-9 translate-y-[-50%] items-center justify-center rounded-full bg-[radial-gradient(circle,#ffffff,#f6f6f6,#ededed,#e4e4e4,#dbdbdb)] dark:bg-[radial-gradient(circle,#050512,#0b0b14,#101016,#141418,#17171a)] lg:flex"
+            id="nextBtn"
+          >
+            <svg
+              class="stroke-[#3a34a3] dark:stroke-[#f7fafc]"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="9,18 15,12 9,6"></polyline>
+            </svg>
+          </button>
+        </div>
+        <div class="dots-container hidden items-center justify-center gap-3 lg:mb-12 lg:mt-10 lg:flex">
+          <div class="dot active pointer-events-none h-2 w-2 rounded-full" data-index="0"></div>
+          <div class="dot pointer-events-none h-2 w-2 rounded-full" data-index="1"></div>
+          <div class="dot pointer-events-none h-2 w-2 rounded-full" data-index="2"></div>
+          <div class="dot pointer-events-none h-2 w-2 rounded-full" data-index="3"></div>
         </div>
         <div
           class="progress-bar relative mx-auto my-0 h-1.5 w-full max-w-[200px] overflow-hidden rounded-[999px] bg-[#e4e4e4] dark:bg-[#1c1c1c]"
@@ -164,7 +360,7 @@
           <div class="progress h-full w-[0%] overflow-hidden rounded-[999px] bg-[#3a34a3] dark:bg-[#ff6d04]"></div>
         </div>
         <div
-          class="mx-auto mb-0 mt-20 max-w-[500px] rounded-xl bg-[radial-gradient(circle,#ffffff,#f6f6f6,#ededed,#e4e4e4,#dbdbdb)] p-4 opacity-70 dark:bg-[radial-gradient(circle,#050512,#0b0b14,#101016,#141418,#17171a)]"
+          class="mx-auto mb-0 mt-20 max-w-[500px] rounded-xl bg-[radial-gradient(circle,#ffffff,#f6f6f6,#ededed,#e4e4e4,#dbdbdb)] p-4 opacity-70 dark:bg-[radial-gradient(circle,#050512,#0b0b14,#101016,#141418,#17171a)] lg:hidden"
         >
           <p class="text-center text-sm font-normal leading-5 text-[#191919] dark:text-[#f7fafc]">
             <span class="font-medium text-[#3a34a3] dark:text-[#ff6d04]">Note:&nbsp;</span>You can pause the timer when

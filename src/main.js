@@ -5,6 +5,10 @@ const body = document.body;
 const blocks = document.querySelectorAll('.block');
 const progress = document.querySelector('.progress');
 const themeSwitch = document.querySelector('.theme-button');
+const dots = document.querySelectorAll('.dot');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const playPauseBtns = document.querySelectorAll('.play-pause-btn');
 
 let currentActiveIndex = 0;
 let timerId = null;
@@ -13,6 +17,8 @@ let startTime;
 let remainingTime = cycleDuration;
 let isPaused = false;
 let mouseOverActiveBlock = false;
+let isMobile = window.innerWidth <= 1024;
+let splitInstance = null;
 
 function setActiveBlock(index) {
   // Remove active class from all blocks
@@ -20,28 +26,33 @@ function setActiveBlock(index) {
     block.classList.remove('active');
     block.querySelector('p').classList.remove('split');
   });
+  dots.forEach((dot) => {
+    dot.classList.remove('active');
+  });
+
+  if (splitInstance) {
+    splitInstance.revert(); // <-- This is important
+    splitInstance = null;
+  }
 
   // Set active block
   blocks[index].classList.add('active');
-  blocks[index].querySelector('p').classList.add('split');
+  dots[index].classList.add('active');
+  const paragraph = blocks[index].querySelector('p');
+  paragraph.classList.add('split');
   currentActiveIndex = index;
   document.fonts.ready.then(() => {
-    let split;
-    SplitText.create('.split', {
+    splitInstance = new SplitText(paragraph, {
       type: 'words,lines',
-      linesClass: 'line',
-      autoSplit: true,
-      mask: 'lines',
-      onSplit: (self) => {
-        split = gsap.from(self.lines, {
-          duration: 0.6,
-          yPercent: 100,
-          opacity: 0,
-          stagger: 0.1,
-          ease: 'expo.out'
-        });
-        return split;
-      }
+      linesClass: 'line'
+    });
+
+    gsap.from(splitInstance.lines, {
+      duration: 0.6,
+      yPercent: 100,
+      opacity: 0,
+      stagger: 0.1,
+      ease: 'expo.out'
     });
   });
 }
@@ -78,7 +89,7 @@ function cycleToNextBlock() {
   resetTimer();
 
   // Check if mouse is already over the new active block
-  if (mouseOverActiveBlock) {
+  if (!isMobile && mouseOverActiveBlock) {
     pauseTimer();
   } else {
     animateProgress();
@@ -91,6 +102,7 @@ function pauseTimer() {
   isPaused = true;
   remainingTime = cycleDuration - (Date.now() - startTime);
   cancelAnimationFrame(timerId);
+  updatePlayPauseButtons();
 }
 
 function resumeTimer() {
@@ -99,6 +111,22 @@ function resumeTimer() {
   isPaused = false;
   startTime = Date.now() - (cycleDuration - remainingTime);
   animateProgress();
+  updatePlayPauseButtons();
+}
+
+function updatePlayPauseButtons() {
+  playPauseBtns.forEach((btn) => {
+    const pauseIcon = btn.querySelector('.pause-icon');
+    const playIcon = btn.querySelector('.play-icon');
+
+    if (isPaused) {
+      pauseIcon.style.display = 'none';
+      playIcon.style.display = 'block';
+    } else {
+      pauseIcon.style.display = 'block';
+      playIcon.style.display = 'none';
+    }
+  });
 }
 
 function handleBlockClick(index) {
@@ -112,9 +140,18 @@ function handleBlockClick(index) {
   pauseTimer();
 }
 
+function handleDotClick(index) {
+  if (isMobile || index === currentActiveIndex) return;
+
+  setActiveBlock(index);
+  resetTimer();
+  animateProgress();
+}
+
 function handleMouseEnter(e) {
-  const block = e.target;
-  const isActiveBlock = block.classList.contains('active');
+  if (isMobile) return;
+  const block = e.target.closest('.block');
+  const isActiveBlock = block && block.classList.contains('active');
 
   if (isActiveBlock) {
     mouseOverActiveBlock = true;
@@ -123,8 +160,9 @@ function handleMouseEnter(e) {
 }
 
 function handleMouseLeave(e) {
-  const block = e.target;
-  const isActiveBlock = block.classList.contains('active');
+  if (isMobile) return;
+  const block = e.target.closest('.block');
+  const isActiveBlock = block && block.classList.contains('active');
 
   if (isActiveBlock) {
     mouseOverActiveBlock = false;
@@ -132,10 +170,64 @@ function handleMouseLeave(e) {
   }
 }
 
+function handlePlayPauseClick(e) {
+  if (!isMobile) return;
+
+  e.stopPropagation();
+
+  if (isPaused) {
+    resumeTimer();
+  } else {
+    pauseTimer();
+  }
+}
+
+function handlePrevClick() {
+  const prevIndex = (currentActiveIndex - 1 + blocks.length) % blocks.length;
+  setActiveBlock(prevIndex);
+  resetTimer();
+
+  // Always start timer when navigating with arrows
+  if (isPaused) {
+    isPaused = false;
+    updatePlayPauseButtons();
+  }
+  animateProgress();
+}
+
+function handleNextClick() {
+  const nextIndex = (currentActiveIndex + 1) % blocks.length;
+  setActiveBlock(nextIndex);
+  resetTimer();
+
+  // Always start timer when navigating with arrows
+  if (isPaused) {
+    isPaused = false;
+    updatePlayPauseButtons();
+  }
+  animateProgress();
+}
+
+function handleResize() {
+  const wasMobile = isMobile;
+  isMobile = window.innerWidth <= 1024;
+
+  if (wasMobile !== isMobile) {
+    // Reset state when switching between mobile and desktop
+    if (isMobile) {
+      mouseOverActiveBlock = false;
+      if (isPaused) {
+        resumeTimer();
+      }
+    }
+  }
+}
+
 // Initialize
 setActiveBlock(currentActiveIndex);
 resetTimer();
 animateProgress();
+updatePlayPauseButtons();
 
 // Add event listeners to all blocks
 blocks.forEach((block, index) => {
@@ -143,6 +235,19 @@ blocks.forEach((block, index) => {
   block.addEventListener('mouseenter', handleMouseEnter);
   block.addEventListener('mouseleave', handleMouseLeave);
 });
+
+dots.forEach((dot, index) => {
+  dot.addEventListener('click', () => handleDotClick(index));
+});
+
+playPauseBtns.forEach((btn) => {
+  btn.addEventListener('click', handlePlayPauseClick);
+});
+
+prevBtn.addEventListener('click', handlePrevClick);
+nextBtn.addEventListener('click', handleNextClick);
+
+window.addEventListener('resize', handleResize);
 
 // theme change
 if (localStorage.theme === 'light') {
