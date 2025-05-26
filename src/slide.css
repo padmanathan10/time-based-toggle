@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .container {
+    @apply max-w-[1210px] xl:max-w-[960px] lg:max-w-[720px] md:max-w-[640px] sm:max-w-full;
+  }
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.shadow-blur {
+  display: none;
+}
+
+.block.active .shadow-blur {
+  display: block;
+}
+
+.block-avatar-container {
+  transform: translate(-50%, -50%);
+}
+
+.block.active .block-avatar-container {
+  transform: translate(-50%, -80%);
+  opacity: 1;
+}
+
+.block-avatar {
+  width: 160px;
+  height: 160px;
+}
+
+.block.active .block-avatar {
+  width: 120px;
+  height: 120px;
+}
+
+.animated-para {
+  opacity: 0;
+  max-height: 0px;
+  min-height: 0px;
+}
+
+.split {
+  opacity: 0;
+  max-height: 0px;
+  min-height: 0px;
+}
+
+.split.animated-para {
+  opacity: 1;
+  max-height: max-content;
+  min-height: max-content;
+}
+
+.split * {
+  will-change: transform;
+}
+
+.dark .theme-button .moon-icon,
+.theme-button .sun-icon {
+  display: none;
+}
+
+.dark .theme-button .sun-icon,
+.theme-button .moon-icon {
+  display: block;
+}
+
+.dot {
+  background-color: #ccc;
+}
+
+.dot.active {
+  background-color: #3a34a3;
+}
+
+.dark .dot {
+  background-color: #ccc;
+}
+
+.dark .dot.active {
+  background-color: #ff6d04;
+  transform: scale(1.2);
+}
+
+.card-transition {
+  transition:
+    transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+@media (max-width: 1290px) {
+  .block.active .block-avatar-container {
+    transform: translate(-50%, -85%);
+  }
+}
+
+@media (max-width: 1024px) {
+  .block-container {
+    height: 360px;
+  }
+}
