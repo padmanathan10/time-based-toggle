@@ -12,7 +12,7 @@ const playPauseBtns = document.querySelectorAll('.play-pause-btn');
 
 let currentActiveIndex = 0;
 let timerId = null;
-let cycleDuration = 99000; // in milliseconds
+let cycleDuration = 3000; // in milliseconds
 let startTime;
 let remainingTime = cycleDuration;
 let isPaused = false;
@@ -85,34 +85,64 @@ function updateMobileCardsLayout(animate = true) {
     }
 
     if (index === currentActiveIndex) {
-      // Active card - center, full size
+      // Active card - center, full size, highest z-index
       block.style.transform = 'translateX(-50%) scale(1)';
       block.style.opacity = '1';
-      block.style.zIndex = '10';
+      block.style.zIndex = '20';
     } else if (index === prevIndex) {
       // Previous card - positioned to show 20% on left side
       block.style.transform = 'translateX(-150%) scale(0.85)';
       block.style.opacity = '0.8';
-      block.style.zIndex = '5';
+      block.style.zIndex = '10';
     } else if (index === nextIndex) {
       // Next card - positioned to show 20% on right side
       block.style.transform = 'translateX(50%) scale(0.85)';
       block.style.opacity = '0.8';
-      block.style.zIndex = '5';
+      block.style.zIndex = '10';
     } else {
-      // Hidden cards - completely off screen
+      // Hidden cards - completely off screen with very low z-index
       let translateX;
+      let zIndex = '1';
+
+      // Calculate distance from current active index
+      const distanceFromActive = Math.min(
+        Math.abs(index - currentActiveIndex),
+        totalCards - Math.abs(index - currentActiveIndex)
+      );
+
       if (index < currentActiveIndex) {
-        // Cards before current - hide on left
-        translateX = index < prevIndex ? '-150%' : '-120%';
+        // Cards before current
+        if (distanceFromActive === 1) {
+          // This is the previous card, already handled above
+          return;
+        } else if (distanceFromActive === totalCards - 1) {
+          // This card will be the next "previous" card when looping
+          translateX = '-200%';
+          zIndex = '2';
+        } else {
+          // Far away cards on the left
+          translateX = '-250%';
+          zIndex = '1';
+        }
       } else {
-        // Cards after current - hide on right
-        translateX = index > nextIndex ? '150%' : '120%';
+        // Cards after current
+        if (distanceFromActive === 1) {
+          // This is the next card, already handled above
+          return;
+        } else if (distanceFromActive === totalCards - 1) {
+          // This card will be the next "previous" card when looping
+          translateX = '200%';
+          zIndex = '2';
+        } else {
+          // Far away cards on the right
+          translateX = '250%';
+          zIndex = '1';
+        }
       }
 
       block.style.transform = `translateX(${translateX}) scale(0.75)`;
       block.style.opacity = '0';
-      block.style.zIndex = '1';
+      block.style.zIndex = zIndex;
     }
   });
 
