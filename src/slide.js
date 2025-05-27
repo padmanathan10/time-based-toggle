@@ -100,49 +100,16 @@ function updateMobileCardsLayout(animate = true) {
       block.style.opacity = '0.8';
       block.style.zIndex = '10';
     } else {
-      // Hidden cards - completely off screen with very low z-index
-      let translateX;
-      let zIndex = '1';
-
-      // Calculate distance from current active index
-      const distanceFromActive = Math.min(
-        Math.abs(index - currentActiveIndex),
-        totalCards - Math.abs(index - currentActiveIndex)
-      );
-
-      if (index < currentActiveIndex) {
-        // Cards before current
-        if (distanceFromActive === 1) {
-          // This is the previous card, already handled above
-          return;
-        } else if (distanceFromActive === totalCards - 1) {
-          // This card will be the next "previous" card when looping
-          translateX = '-200%';
-          zIndex = '2';
-        } else {
-          // Far away cards on the left
-          translateX = '-250%';
-          zIndex = '1';
-        }
-      } else {
-        // Cards after current
-        if (distanceFromActive === 1) {
-          // This is the next card, already handled above
-          return;
-        } else if (distanceFromActive === totalCards - 1) {
-          // This card will be the next "previous" card when looping
-          translateX = '200%';
-          zIndex = '2';
-        } else {
-          // Far away cards on the right
-          translateX = '250%';
-          zIndex = '1';
-        }
-      }
-
-      block.style.transform = `translateX(${translateX}) scale(0.75)`;
+      // Hidden cards - completely off screen and invisible
+      block.style.transform = 'translateX(-50%) scale(0.75)';
       block.style.opacity = '0';
-      block.style.zIndex = zIndex;
+      block.style.zIndex = '1';
+      block.style.visibility = 'hidden'; // Completely hide cards that shouldn't be visible
+    }
+
+    // Ensure visible cards are not hidden
+    if (index === currentActiveIndex || index === prevIndex || index === nextIndex) {
+      block.style.visibility = 'visible';
     }
   });
 
@@ -358,6 +325,7 @@ function handleResize() {
         block.style.left = '50%';
         block.style.transform = 'translateX(-50%)';
         block.style.transformOrigin = 'center center';
+        block.style.visibility = 'visible'; // Reset visibility
       });
       updateMobileCardsLayout(false);
     } else {
@@ -369,6 +337,7 @@ function handleResize() {
         block.style.opacity = '';
         block.style.zIndex = '';
         block.style.transformOrigin = '';
+        block.style.visibility = '';
         block.classList.remove('card-transition');
       });
     }
